@@ -10,6 +10,7 @@ import { apiUtils, AzureExtensionApi, callWithTelemetryAndErrorHandling, createA
 import { AzureHostExtensionApi } from '@microsoft/vscode-azext-utils/hostapi';
 import { AzExtResourceType } from '@microsoft/vscode-azureresources-api';
 import * as vscode from 'vscode';
+import { ArcServerResolver } from './ArcServerTreeItemResolver';
 import { revealTreeItem } from './commands/api/revealTreeItem';
 import { registerCommands } from './commands/registerCommands';
 import { ext } from './extensionVariables';
@@ -34,7 +35,12 @@ export async function activateInternal(context: vscode.ExtensionContext, perfSta
         if (rgApiProvider) {
             const api = rgApiProvider.getApi<AzureHostExtensionApi>('0.0.1');
             ext.rgApi = api;
+
             api.registerApplicationResourceResolver(AzExtResourceType.VirtualMachines, new VirtualMachineResolver());
+
+            // TODO: Get this new enum into the dependency.
+            // AzExtResourceType.ArcServer
+            api.registerApplicationResourceResolver(AzExtResourceType.ArcServers, new ArcServerResolver());
         } else {
             throw new Error('Could not find the Azure Resource Groups extension');
         }

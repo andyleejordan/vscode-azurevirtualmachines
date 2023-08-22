@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { ComputeManagementClient } from '@azure/arm-compute';
+import { HybridComputeManagementClient } from '@azure/arm-hybridcompute';
 import { NetworkManagementClient } from '@azure/arm-network';
 import { ResourceManagementClient } from '@azure/arm-resources';
 import { AzExtClientContext, createAzureClient, parseClientContext } from '@microsoft/vscode-azext-azureutils';
@@ -13,6 +14,10 @@ import { AzExtClientContext, createAzureClient, parseClientContext } from '@micr
 
 export async function createComputeClient(context: AzExtClientContext): Promise<ComputeManagementClient> {
     return createAzureClient(context, (await import('@azure/arm-compute')).ComputeManagementClient);
+}
+
+export async function createHybridComputeClient(context: AzExtClientContext): Promise<HybridComputeManagementClient> {
+    return createAzureClient(context, (await import('@azure/arm-hybridcompute')).HybridComputeManagementClient);
 }
 
 export async function createNetworkClient(context: AzExtClientContext): Promise<NetworkManagementClient> {

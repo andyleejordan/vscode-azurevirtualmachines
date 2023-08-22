@@ -43,12 +43,20 @@
                 "branches": [
                     {
                         "type": "VirtualMachines"
+                    },
+                    {
+                        "type": "ArcServers"
                     }
                 ]
             },
             "activation": {
                 "onFetch": [
-                    "microsoft.compute/virtualmachines"
+                    "microsoft.compute/virtualmachines",
+                    "microsoft.hybridcompute/machines"
+                ],
+                "onResolve": [
+                    "microsoft.compute/virtualmachines",
+                    "microsoft.hybridcompute/machines"
                 ]
             },
             "commands": [
@@ -184,7 +192,7 @@
     },
     "scripts": {
         "vscode:prepublish": "npm run webpack-prod",
-        "build": "tsc",
+        "build": "esbuild ./src/extension.ts --outdir=out/src --sourcemap --bundle --external:vscode --platform=node",
         "cleanReadme": "gulp cleanReadme",
         "compile": "tsc -watch",
         "package": "vsce package --githubBranch main",
@@ -209,6 +217,7 @@
         "@typescript-eslint/eslint-plugin": "^5.59.11",
         "@vscode/test-electron": "^2.1.5",
         "@vscode/vsce": "^2.19.0",
+        "esbuild": "^0.19.2",
         "eslint": "^8.42.0",
         "eslint-plugin-import": "^2.27.5",
         "glob": "^7.1.6",
@@ -224,13 +233,14 @@
     },
     "dependencies": {
         "@azure/arm-compute": "^17.1.0",
+        "@azure/arm-hybridcompute": "^3.0.0",
         "@azure/arm-network": "^26.0.0",
         "@azure/arm-network-profile-2020-09-01-hybrid": "^2.1.0",
         "@azure/arm-resources": "^5.0.0",
         "@azure/arm-resources-profile-2020-09-01-hybrid": "^2.1.0",
         "@microsoft/vscode-azext-azureutils": "^2.0.0",
         "@microsoft/vscode-azext-utils": "^2.0.0",
-        "@microsoft/vscode-azureresources-api": "^2.0.4",
+        "@microsoft/vscode-azureresources-api": "file:../vscode-azureresourcegroups/api/microsoft-vscode-azureresources-api-2.2.0.tgz",
         "fs-extra": "^8.1.0",
         "open": "^8.0.4",
         "semver": "^7.5.2",

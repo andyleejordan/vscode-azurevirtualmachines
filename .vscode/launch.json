@@ -25,17 +25,26 @@
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": [
+                "--profile=debug",
                 "--extensionDevelopmentPath=${workspaceFolder}",
                 "--extensionDevelopmentPath=${workspaceFolder}/../vscode-azureresourcegroups"
             ],
-            "outFiles": [
-                "${workspaceFolder}/out/**/*.js"
-            ],
-            "preLaunchTask": "${defaultBuildTask}",
+            "sourceMaps": true,
+            "preLaunchTask": "npm: build",
             "env": {
-                "DEBUGTELEMETRY": "v",
-                "NODE_DEBUG": ""
-            }
+                "DEBUGTELEMETRY": "v"
+            },
+            // This speeds up source map detection and makes smartStep work correctly
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js",
+                "!**/node_modules/**",
+                "!**/.vscode-test/**"
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+                "**/node_modules/**",
+                "**/.vscode-test/**"
+            ]
         },
         {
             "name": "Launch Extension (webpack)",
